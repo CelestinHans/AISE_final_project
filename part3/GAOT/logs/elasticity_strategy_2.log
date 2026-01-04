@@ -1,0 +1,99 @@
+Traceback (most recent call last):
+  File "/home/cehans/AISE_final_project/part3/GAOT/main.py", line 198, in <module>
+    run_arg_files(config.arg_files, config.debug, config.num_works_per_device)
+  File "/home/cehans/AISE_final_project/part3/GAOT/main.py", line 134, in run_arg_files
+    run_arg(FileParser(arg_files[0]).parse_args())
+  File "/home/cehans/AISE_final_project/part3/GAOT/main.py", line 104, in run_arg
+    t = Trainer(arg)
+        ^^^^^^^^^^^^
+  File "/home/cehans/AISE_final_project/part3/GAOT/src/trainer/static_trainer.py", line 38, in __init__
+    super().__init__(config)
+  File "/home/cehans/AISE_final_project/part3/GAOT/src/core/base_trainer.py", line 43, in __init__
+    self.model_config = merge_config(ModelConfig, config.model)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cehans/AISE_final_project/part3/GAOT/src/core/default_configs.py", line 18, in merge_config
+    merged_config = OmegaConf.merge(default_config_struct, user_config)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cehans/deep_learning/venv/lib/python3.12/site-packages/omegaconf/omegaconf.py", line 273, in merge
+    target.merge_with(*configs[1:])
+  File "/home/cehans/deep_learning/venv/lib/python3.12/site-packages/omegaconf/basecontainer.py", line 492, in merge_with
+    self._format_and_raise(key=None, value=None, cause=e)
+  File "/home/cehans/deep_learning/venv/lib/python3.12/site-packages/omegaconf/base.py", line 231, in _format_and_raise
+    format_and_raise(
+  File "/home/cehans/deep_learning/venv/lib/python3.12/site-packages/omegaconf/_utils.py", line 819, in format_and_raise
+    _raise(ex, cause)
+  File "/home/cehans/deep_learning/venv/lib/python3.12/site-packages/omegaconf/_utils.py", line 797, in _raise
+    raise ex.with_traceback(sys.exc_info()[2])  # set env var OC_CAUSE=1 for full trace
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cehans/deep_learning/venv/lib/python3.12/site-packages/omegaconf/basecontainer.py", line 490, in merge_with
+    self._merge_with(*others)
+  File "/home/cehans/deep_learning/venv/lib/python3.12/site-packages/omegaconf/basecontainer.py", line 514, in _merge_with
+    BaseContainer._map_merge(self, other)
+  File "/home/cehans/deep_learning/venv/lib/python3.12/site-packages/omegaconf/basecontainer.py", line 399, in _map_merge
+    dest_node._merge_with(src_node)
+  File "/home/cehans/deep_learning/venv/lib/python3.12/site-packages/omegaconf/basecontainer.py", line 514, in _merge_with
+    BaseContainer._map_merge(self, other)
+  File "/home/cehans/deep_learning/venv/lib/python3.12/site-packages/omegaconf/basecontainer.py", line 399, in _map_merge
+    dest_node._merge_with(src_node)
+  File "/home/cehans/deep_learning/venv/lib/python3.12/site-packages/omegaconf/basecontainer.py", line 514, in _merge_with
+    BaseContainer._map_merge(self, other)
+  File "/home/cehans/deep_learning/venv/lib/python3.12/site-packages/omegaconf/basecontainer.py", line 432, in _map_merge
+    dest[key] = src._get_node(key)
+    ~~~~^^^^^
+  File "/home/cehans/deep_learning/venv/lib/python3.12/site-packages/omegaconf/dictconfig.py", line 310, in __setitem__
+    self._format_and_raise(
+  File "/home/cehans/deep_learning/venv/lib/python3.12/site-packages/omegaconf/base.py", line 231, in _format_and_raise
+    format_and_raise(
+  File "/home/cehans/deep_learning/venv/lib/python3.12/site-packages/omegaconf/_utils.py", line 819, in format_and_raise
+    _raise(ex, cause)
+  File "/home/cehans/deep_learning/venv/lib/python3.12/site-packages/omegaconf/_utils.py", line 797, in _raise
+    raise ex.with_traceback(sys.exc_info()[2])  # set env var OC_CAUSE=1 for full trace
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cehans/deep_learning/venv/lib/python3.12/site-packages/omegaconf/dictconfig.py", line 308, in __setitem__
+    self.__set_impl(key=key, value=value)
+  File "/home/cehans/deep_learning/venv/lib/python3.12/site-packages/omegaconf/dictconfig.py", line 318, in __set_impl
+    self._set_item_impl(key, value)
+  File "/home/cehans/deep_learning/venv/lib/python3.12/site-packages/omegaconf/basecontainer.py", line 545, in _set_item_impl
+    self._validate_set(key, value)
+  File "/home/cehans/deep_learning/venv/lib/python3.12/site-packages/omegaconf/dictconfig.py", line 180, in _validate_set
+    target = self._get_node(key) if key is not None else self
+             ^^^^^^^^^^^^^^^^^^^
+  File "/home/cehans/deep_learning/venv/lib/python3.12/site-packages/omegaconf/dictconfig.py", line 475, in _get_node
+    self._validate_get(key)
+  File "/home/cehans/deep_learning/venv/lib/python3.12/site-packages/omegaconf/dictconfig.py", line 164, in _validate_get
+    self._format_and_raise(
+  File "/home/cehans/deep_learning/venv/lib/python3.12/site-packages/omegaconf/base.py", line 231, in _format_and_raise
+    format_and_raise(
+  File "/home/cehans/deep_learning/venv/lib/python3.12/site-packages/omegaconf/_utils.py", line 899, in format_and_raise
+    _raise(ex, cause)
+  File "/home/cehans/deep_learning/venv/lib/python3.12/site-packages/omegaconf/_utils.py", line 797, in _raise
+    raise ex.with_traceback(sys.exc_info()[2])  # set env var OC_CAUSE=1 for full trace
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+omegaconf.errors.ConfigKeyError: Key 'dynamic_radius' not in 'MAGNOConfig'
+    full_key: args.magno.dynamic_radius
+    reference_type=MAGNOConfig
+    object_type=MAGNOConfig
+Command exited with non-zero status 1
+	Command being timed: "python part3/GAOT/main.py --config part3/GAOT/config/examples/time_indep/elasticity_strategy_2.json"
+	User time (seconds): 3.77
+	System time (seconds): 1.06
+	Percent of CPU this job got: 73%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:06.60
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 557404
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 87
+	Minor (reclaiming a frame) page faults: 264311
+	Voluntary context switches: 1869
+	Involuntary context switches: 726
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 56
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 1

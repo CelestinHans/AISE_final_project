@@ -68,11 +68,14 @@ def train_datadriven(
     adam_epochs: int,
     batch_size: int,
     lbfgs_max_iter: int,
-    verbose: bool,
-    print_every: int,
+    verbose: bool = True,
+    print_every: int = 100,
+    patience: int = 10,
+    min_epochs: int = 50,
+    tol: float = 1e-2,
 ) -> Tuple[nn.Module, list[float]]:
     """
-    Train with L_data = MSE(u_pred, u_true) using Adam then L-BFGS.
+    Train with L_data = MSE(u_pred, u_true) using Adam then L-BFGS, with early stopping on Adam.
     """
     ds = TensorDataset(xy, u_true)
     dl = DataLoader(ds, batch_size=batch_size, shuffle=True)
@@ -82,24 +85,46 @@ def train_datadriven(
 
     opt = torch.optim.Adam(model.parameters(), lr=adam_lr)
 
+    best = float("inf")
+    bad = 0
+
     model.train()
     for epoch in trange(adam_epochs, disable=not verbose, desc="Adam (Data)"):
         epoch_loss = 0.0
         nb = 0
+
         for xb, ub in dl:
             opt.zero_grad(set_to_none=True)
             pred = model(xb)
             loss = mse(pred, ub)
             loss.backward()
             opt.step()
-            val = loss.item()
-            losses.append(val)
-            epoch_loss += val
+
+            v = loss.item()
+            losses.append(v)
+            epoch_loss += v
             nb += 1
 
         mean_epoch = epoch_loss / max(nb, 1)
+
+        if mean_epoch < best:
+            rel_impr = (best - mean_epoch) / max(best, 1e-12) if best < float("inf") else float("inf")
+            best = mean_epoch
+        else:
+            rel_impr = 0.0
+
         if verbose and (epoch % print_every == 0 or epoch == adam_epochs - 1):
-            print(f"[Data][Adam] epoch {epoch+1}/{adam_epochs}  mean_loss={mean_epoch:.6e}")
+            print(f"[Data][Adam] epoch {epoch+1}/{adam_epochs}  mean_loss={mean_epoch:.6e}  best={best:.6e}")
+
+        if epoch + 1 >= min_epochs:
+            if rel_impr < tol:
+                bad += 1
+            else:
+                bad = 0
+            if bad >= patience:
+                if verbose:
+                    print(f"[Data][Adam] early stop at epoch {epoch+1} (patience={patience})  best={best:.6e}")
+                break
 
     xy_full = xy
     u_full = u_true
@@ -140,12 +165,15 @@ def train_pinn(
     adam_epochs: int,
     interior_batch_size: int,
     lbfgs_max_iter: int,
-    verbose: bool,
-    print_every: int,
+    verbose: bool = True,
+    print_every: int = 100,
+    patience: int = 10,
+    min_epochs: int = 50,
+    tol: float = 1e-2,
 ) -> Tuple[nn.Module, list[float]]:
     """
-    Train with L_pinn = MSE(-Δu_pred - f) on interior + lambda_bc*MSE(u_pred) on boundary.
-    Collocation points are the grid nodes.
+    Train with L_pinn = MSE(-Delta_u_pred - f) on interior + lambda_bc * MSE(u_pred) on boundary,
+    using Adam then L-BFGS, with early stopping on Adam.
     """
     mse = nn.MSELoss()
     losses: list[float] = []
@@ -158,6 +186,9 @@ def train_pinn(
     dl = DataLoader(ds, batch_size=interior_batch_size, shuffle=True)
 
     opt = torch.optim.Adam(model.parameters(), lr=adam_lr)
+
+    best = float("inf")
+    bad = 0
 
     model.train()
     for epoch in trange(adam_epochs, disable=not verbose, desc="Adam (PINN)"):
@@ -180,14 +211,31 @@ def train_pinn(
             loss.backward()
             opt.step()
 
-            val = loss.item()
-            losses.append(val)
-            epoch_loss += val
+            v = loss.item()
+            losses.append(v)
+            epoch_loss += v
             nb += 1
 
         mean_epoch = epoch_loss / max(nb, 1)
+
+        if mean_epoch < best:
+            rel_impr = (best - mean_epoch) / max(best, 1e-12) if best < float("inf") else float("inf")
+            best = mean_epoch
+        else:
+            rel_impr = 0.0
+
         if verbose and (epoch % print_every == 0 or epoch == adam_epochs - 1):
-            print(f"[PINN][Adam] epoch {epoch+1}/{adam_epochs}  mean_loss={mean_epoch:.6e}")
+            print(f"[PINN][Adam] epoch {epoch+1}/{adam_epochs}  mean_loss={mean_epoch:.6e}  best={best:.6e}")
+
+        if epoch + 1 >= min_epochs:
+            if rel_impr < tol:
+                bad += 1
+            else:
+                bad = 0
+            if bad >= patience:
+                if verbose:
+                    print(f"[PINN][Adam] early stop at epoch {epoch+1} (patience={patience})  best={best:.6e}")
+                break
 
     xy_int_full = xy_int.detach().requires_grad_(True)
     f_int_full = f_int
@@ -225,7 +273,6 @@ def train_pinn(
         print(f"[PINN][LBFGS] loss_before={loss_before:.6e}  loss_after={loss_after:.6e}")
 
     return model, losses
-
 
 def evaluate_on_grid(
     model: nn.Module,
@@ -315,13 +362,12 @@ def run_one(
                 model=model,
                 xy=xy,
                 u_true=u,
-                # reg_lambda=cfg["reg_lambda"],
                 adam_lr=cfg["adam_lr"],
-                adam_epochs=5000,
+                adam_epochs=100,
                 batch_size=4096,
-                lbfgs_max_iter=500,
+                lbfgs_max_iter=200,
                 verbose=True,
-                print_every=200,
+                print_every=50,
             )
         elif method == "pinn":
             model, losses = train_pinn(
@@ -329,14 +375,13 @@ def run_one(
                 xy_all=xy,
                 f_all=f,
                 bc_mask=bc,
-                reg_lambda=cfg["reg_lambda"],
                 lambda_bc=cfg["lambda_bc"],
                 adam_lr=cfg["adam_lr"],
-                adam_epochs=5000,
+                adam_epochs=100,
                 interior_batch_size=2048,
-                lbfgs_max_iter=500,
+                lbfgs_max_iter=200,
                 verbose=True,
-                print_every=200,
+                print_every=50,
             )
         else:
             raise ValueError("method must be 'datadriven' or 'pinn'")
@@ -357,7 +402,7 @@ def run_one(
             "hidden_layers": cfg["hidden_layers"],
             "width": cfg["width"],
             "adam_lr": cfg["adam_lr"],
-            "reg_lambda": cfg["reg_lambda"],
+            # "reg_lambda": cfg["reg_lambda"],
             "lambda_bc": cfg["lambda_bc"],
             "rel_l2": err,
             "final_loss": float(losses[-1]) if len(losses) > 0 else None,

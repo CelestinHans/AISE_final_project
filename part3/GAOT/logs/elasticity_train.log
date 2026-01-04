@@ -1,0 +1,70 @@
+Initializing dataset...
+Loading and preprocessing data...
+Computing statistics and normalizing data
+Data loading and preprocessing complete.
+Detected coordinate mode: vx
+Setting up variable coordinates mode...
+Using torch_cluster for efficient neighbor search
+Building test graphs...
+Building graphs for 256 samples...
+Processed 100/256 samples (0.11s)
+Processed 200/256 samples (0.21s)
+Processed 256/256 samples (0.27s)
+Graph building completed in 0.27s
+Building train graphs...
+Building graphs for 1024 samples...
+Processed 100/1024 samples (0.11s)
+Processed 200/1024 samples (0.21s)
+Processed 300/1024 samples (0.32s)
+Processed 400/1024 samples (0.44s)
+Processed 500/1024 samples (0.55s)
+Processed 600/1024 samples (0.67s)
+Processed 700/1024 samples (0.78s)
+Processed 800/1024 samples (0.90s)
+Processed 900/1024 samples (1.01s)
+Processed 1000/1024 samples (1.13s)
+Processed 1024/1024 samples (1.15s)
+Graph building completed in 1.15s
+Building val graphs...
+Building graphs for 128 samples...
+Processed 100/128 samples (0.11s)
+Processed 128/128 samples (0.15s)
+Graph building completed in 0.15s
+Dataset initialization complete.
+Using torch_cluster for efficient neighbor search
+Using torch_cluster for efficient neighbor search
+Initialized goat model with 2D coordinates
+Number of parameters: 3367489
+AdamWOptimizer:   0%|[34m          [0m| 0/2 [00:00<?, ?it/s]AdamWOptimizer:  50%|[34m█████     [0m| 1/2 [00:13<00:13, 13.99s/it]AdamWOptimizer: 100%|[34m██████████[0m| 2/2 [00:27<00:00, 13.46s/it]AdamWOptimizer: 100%|[34m██████████[0m| 2/2 [00:28<00:00, 13.46s/it, loss=0.939, val_loss=0.924]AdamWOptimizer: 100%|[34m██████████[0m| 2/2 [00:28<00:00, 14.30s/it, loss=0.939, val_loss=0.924]
+/home/cehans/AISE_final_project/part3/GAOT/src/core/base_trainer.py:264: UserWarning: No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+  ax[1].legend()
+Starting model testing...
+Relative error: 0.992300808429718
+[DEBUG] coord_used (scaled) min/max: -0.9834015965461731 0.9898236989974976
+[DEBUG] coord_used (scaled) per-dim min/max: tensor([-0.9830, -0.9834], device='cuda:0') tensor([0.9898, 0.9837], device='cuda:0')
+[DEBUG] coord_plot (physical) per-dim min/max: [0.00852317 0.0082992 ] [0.99491185 0.99183965]
+[DEBUG] metadata.domain_x: ([0, 0], [1, 1])
+Plot saved to /home/cehans/AISE_final_project/part3/GAOT/.results/examples/time_indep/elasticity.png
+	Command being timed: "python part3/GAOT/main.py --config part3/GAOT/config/examples/time_indep/elasticity_strategy_2.json"
+	User time (seconds): 38.10
+	System time (seconds): 5.53
+	Percent of CPU this job got: 103%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:42.29
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 2107168
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 871331
+	Voluntary context switches: 171639
+	Involuntary context switches: 45493
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 26664
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

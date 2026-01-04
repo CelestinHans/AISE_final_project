@@ -1,0 +1,124 @@
+{
+  "setup": {
+    "seed": 42,
+    "device": "cuda:0",
+    "dtype": "torch.float32",
+    "trainer_name": "static",
+    "train": true,
+    "test": false,
+    "ckpt": false
+  },
+
+  "model": {
+    "name": "goat",
+
+    "tokenization": "random",
+    "num_latent_tokens": 256,
+    "resample_every_epoch": false,
+    "sampling": "from_domain_points",
+
+    "latent_tokens_size": [16, 16],
+
+    "dynamic_radius": true,
+    "dynamic_radius_k": 8,
+    "dynamic_radius_alpha": 1.5,
+
+    "debug_plot_radii": true,
+    "debug_plot_dir": ".results/debug",
+    "debug_plot_domain": [[-1.0, -1.0], [1.0, 1.0]],
+
+    "args": {
+      "magno": {
+        "coord_dim": 2,
+        "radius": 0.033,
+        "hidden_size": 64,
+        "mlp_layers": 3,
+        "lifting_channels": 64,
+
+        "scales": [1.0],
+        "use_scale_weights": false,
+
+        "use_attention": true,
+        "attention_type": "cosine",
+
+        "use_geoembed": true,
+        "embedding_method": "statistical",
+        "pooling": "max",
+
+        "transform_type": "linear",
+
+        "sampling_strategy": null,
+        "max_neighbors": null,
+        "sample_ratio": null,
+
+        "node_embedding": false,
+        "neighbor_search_method": "auto",
+        "use_torch_scatter": true,
+        "neighbor_strategy": "radius",
+        "precompute_edges": true
+      },
+
+      "transformer": {
+        "patch_size": 1,
+        "hidden_size": 256,
+
+        "positional_embedding": "absolute",
+
+        "use_rel_dist_bias": false,
+        "rel_bias_hidden_size": 64,
+
+        "use_cross_attention": false,
+        "num_seed_tokens": 64,
+
+        "use_attn_norm": true,
+        "use_ffn_norm": true,
+        "norm_eps": 1e-6,
+        "num_layers": 3,
+        "use_long_range_skip": true,
+        "ffn_multiplier": 4,
+
+        "attn_config": {
+          "num_heads": 8,
+          "num_kv_heads": 8,
+          "use_conditional_norm": false,
+          "cond_norm_hidden_size": 4,
+          "atten_dropout": 0.0
+        }
+      }
+    }
+  },
+
+  "dataset": {
+    "name": "Elasticity",
+    "metaname": "elliptic_pdes/Elasticity",
+    "base_path": "data/part3/",
+    "train_size": 1024,
+    "val_size": 128,
+    "test_size": 256,
+    "batch_size": 64,
+    "num_workers": 2,
+    "shuffle": true
+  },
+
+  "optimizer": {
+    "name": "adamw",
+    "args": {
+      "lr": 8e-4,
+      "weight_decay": 1e-5,
+      "epoch": 2,
+      "loss_scale": 1.0,
+      "eval_every_eps": 2,
+      "scheduler": "mix",
+      "max_lr": 1e-3,
+      "min_lr": 1e-4,
+      "final_lr": 5e-5
+    }
+  },
+
+  "path": {
+    "ckpt_path": ".ckpt/examples/time_indep/elasticity_bonus.pt",
+    "loss_path": ".loss/examples/time_indep/elasticity_bonus.png",
+    "result_path": ".results/examples/time_indep/elasticity_bonus.png",
+    "database_path": ".database/examples/time_indep/elasticity_bonus.csv"
+  }
+}

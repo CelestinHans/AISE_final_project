@@ -1,0 +1,76 @@
+Initializing dataset...
+Loading and preprocessing data...
+Computing statistics and normalizing data
+Data loading and preprocessing complete.
+Detected coordinate mode: vx
+Setting up variable coordinates mode...
+Using torch_cluster for efficient neighbor search
+Building graphs for 256 samples...
+[R] r_latent min/mean/max: 0.148549884557724 0.2788681983947754 0.5929738879203796
+[COVERAGE] encoder scale 0: 972/972 = 1.0000
+[DEGREE] encoder scale 0: min=13, mean=26.9, max=32
+Processed 100/256 samples (1.67s)
+Processed 200/256 samples (2.42s)
+Processed 256/256 samples (2.84s)
+Graph building completed in 2.84s
+Building graphs for 1024 samples...
+[R] r_latent min/mean/max: 0.1374574601650238 0.27628469467163086 0.5960336923599243
+[COVERAGE] encoder scale 0: 971/972 = 0.9990
+[DEGREE] encoder scale 0: min=12, mean=27.5, max=32
+Processed 100/1024 samples (1.61s)
+Processed 200/1024 samples (2.38s)
+Processed 300/1024 samples (3.16s)
+Processed 400/1024 samples (3.94s)
+Processed 500/1024 samples (4.72s)
+Processed 600/1024 samples (5.50s)
+Processed 700/1024 samples (6.29s)
+Processed 800/1024 samples (7.07s)
+Processed 900/1024 samples (7.87s)
+Processed 1000/1024 samples (8.66s)
+Processed 1024/1024 samples (8.86s)
+Graph building completed in 8.86s
+Building graphs for 128 samples...
+[R] r_latent min/mean/max: 0.15207721292972565 0.2763981223106384 0.5910372138023376
+[COVERAGE] encoder scale 0: 961/972 = 0.9887
+[DEGREE] encoder scale 0: min=11, mean=26.9, max=32
+Processed 100/128 samples (1.77s)
+Processed 128/128 samples (1.99s)
+Graph building completed in 1.99s
+Dataset initialization complete.
+Using torch_cluster for efficient neighbor search
+Using torch_cluster for efficient neighbor search
+Initialized goat model with 2D coordinates
+Number of parameters: 3367489
+AdamWOptimizer:   0%|[34m          [0m| 0/2 [00:00<?, ?it/s]AdamWOptimizer:  50%|[34m█████     [0m| 1/2 [00:15<00:15, 15.43s/it]AdamWOptimizer: 100%|[34m██████████[0m| 2/2 [00:30<00:00, 15.16s/it]AdamWOptimizer: 100%|[34m██████████[0m| 2/2 [00:32<00:00, 15.16s/it, loss=0.897, val_loss=0.875]AdamWOptimizer: 100%|[34m██████████[0m| 2/2 [00:32<00:00, 16.04s/it, loss=0.897, val_loss=0.875]
+/home/cehans/AISE_final_project/part3/GAOT/src/core/base_trainer.py:264: UserWarning: No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+  ax[1].legend()
+Starting model testing...
+Relative error: 0.9513294696807861
+[DEBUG] coord_used (scaled) min/max: -0.9834015965461731 0.9898236989974976
+[DEBUG] coord_used (scaled) per-dim min/max: tensor([-0.9830, -0.9834], device='cuda:0') tensor([0.9898, 0.9837], device='cuda:0')
+[DEBUG] coord_plot (physical) per-dim min/max: [0.00852317 0.0082992 ] [0.99491185 0.99183965]
+[DEBUG] metadata.domain_x: ([0, 0], [1, 1])
+Plot saved to /home/cehans/AISE_final_project/part3/GAOT/.results/examples/time_indep/elasticity_bonus.png
+	Command being timed: "python part3/GAOT/main.py --config part3/GAOT/config/examples/time_indep/elasticity_bonus_absolute.json"
+	User time (seconds): 67.94
+	System time (seconds): 7.68
+	Percent of CPU this job got: 125%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:00.11
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 2397172
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 5
+	Minor (reclaiming a frame) page faults: 1230413
+	Voluntary context switches: 171078
+	Involuntary context switches: 46761
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 32904
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

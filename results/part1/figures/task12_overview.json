@@ -1,0 +1,107 @@
+{
+  "runs": [
+    {
+      "best": {
+        "cfg_id": 12,
+        "method": "datadriven",
+        "K": 1,
+        "sample_idx": 0,
+        "hidden_layers": 3,
+        "width": 128,
+        "adam_lr": 0.001,
+        "lambda_bc": 10.0,
+        "rel_l2": 0.07224614918231964,
+        "final_loss": 1.0126052529813023e-06
+      },
+      "weights_path": "part1/trained_weights/mlp_datadriven_k1_s0_best.pt",
+      "loss_png": "results/part1/figures/loss_curve_datadriven_k1_s0.png",
+      "pred_png": "results/part1/figures/fields_datadriven_k1_s0.png"
+    },
+    {
+      "best": {
+        "cfg_id": 5,
+        "method": "pinn",
+        "K": 1,
+        "sample_idx": 0,
+        "hidden_layers": 3,
+        "width": 32,
+        "adam_lr": 0.0005,
+        "lambda_bc": 100.0,
+        "rel_l2": 0.0060858833603560925,
+        "final_loss": 7.094910688465461e-05
+      },
+      "weights_path": "part1/trained_weights/mlp_pinn_k1_s0_best.pt",
+      "loss_png": "results/part1/figures/loss_curve_pinn_k1_s0.png",
+      "pred_png": "results/part1/figures/fields_pinn_k1_s0.png"
+    },
+    {
+      "best": {
+        "cfg_id": 27,
+        "method": "datadriven",
+        "K": 4,
+        "sample_idx": 0,
+        "hidden_layers": 4,
+        "width": 64,
+        "adam_lr": 0.0005,
+        "lambda_bc": 10.0,
+        "rel_l2": 0.2524968981742859,
+        "final_loss": 8.467976840620395e-06
+      },
+      "weights_path": "part1/trained_weights/mlp_datadriven_k4_s0_best.pt",
+      "loss_png": "results/part1/figures/loss_curve_datadriven_k4_s0.png",
+      "pred_png": "results/part1/figures/fields_datadriven_k4_s0.png"
+    },
+    {
+      "best": {
+        "cfg_id": 23,
+        "method": "pinn",
+        "K": 4,
+        "sample_idx": 0,
+        "hidden_layers": 4,
+        "width": 32,
+        "adam_lr": 0.0005,
+        "lambda_bc": 100.0,
+        "rel_l2": 0.1829608976840973,
+        "final_loss": 0.02536693774163723
+      },
+      "weights_path": "part1/trained_weights/mlp_pinn_k4_s0_best.pt",
+      "loss_png": "results/part1/figures/loss_curve_pinn_k4_s0.png",
+      "pred_png": "results/part1/figures/fields_pinn_k4_s0.png"
+    },
+    {
+      "best": {
+        "cfg_id": 21,
+        "method": "datadriven",
+        "K": 16,
+        "sample_idx": 0,
+        "hidden_layers": 4,
+        "width": 32,
+        "adam_lr": 0.0005,
+        "lambda_bc": 10.0,
+        "rel_l2": 0.8587003350257874,
+        "final_loss": 1.1146969427500153e-06
+      },
+      "weights_path": "part1/trained_weights/mlp_datadriven_k16_s0_best.pt",
+      "loss_png": "results/part1/figures/loss_curve_datadriven_k16_s0.png",
+      "pred_png": "results/part1/figures/fields_datadriven_k16_s0.png"
+    },
+    {
+      "best": {
+        "cfg_id": 5,
+        "method": "pinn",
+        "K": 16,
+        "sample_idx": 0,
+        "hidden_layers": 3,
+        "width": 32,
+        "adam_lr": 0.0005,
+        "lambda_bc": 100.0,
+        "rel_l2": 1.3172341585159302,
+        "final_loss": 1.9300410747528076
+      },
+      "weights_path": "part1/trained_weights/mlp_pinn_k16_s0_best.pt",
+      "loss_png": "results/part1/figures/loss_curve_pinn_k16_s0.png",
+      "pred_png": "results/part1/figures/fields_pinn_k16_s0.png"
+    }
+  ],
+  "device": "cuda"
+}

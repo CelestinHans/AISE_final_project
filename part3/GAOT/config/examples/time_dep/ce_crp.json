@@ -1,0 +1,71 @@
+{
+    "setup": {
+        "seed": 42,
+        "device": "cuda:0",
+        "dtype": "torch.float32",
+        "trainer_name": "sequential",
+        "train": true,
+        "test": false,
+        "ckpt": false
+    },
+
+    "model": {
+        "name": "goat",
+        "latent_tokens_size": [64, 64],
+        "args": {
+            "magno": {
+                "coord_dim": 2,
+                "radius": 0.033,
+                "hidden_size": 64,
+                "mlp_layers": 3,
+                "lifting_channels": 64
+            },
+            "transformer": {
+                "patch_size": 2,
+                "hidden_size": 256
+            }
+        }
+    },
+
+    "dataset": {
+        "name": "CE-CRP",
+        "metaname": "compressible_flow/CE-CRP",
+        "base_path": "datasets/time_dep/",
+        "use_metadata_stats": false,
+        "use_sparse": false,
+        "train_size": 1024,
+        "val_size": 128,
+        "test_size":256,
+        "max_time_diff": 14,
+        "time_step": 2,
+        "coord_scaling": "global_scaling",
+        "batch_size": 64,
+        "num_workers": 4,
+        "shuffle": true,
+        "metric": "final_step",
+        "predict_mode": "all",
+        "stepper_mode": "time_der"
+    },
+
+    "optimizer": {
+        "name": "adamw",
+        "args": {
+            "lr": 8e-4,
+            "weight_decay": 1e-05,
+            "epoch": 500,
+            "loss_scale": 1.0,
+            "eval_every_eps": 2,
+            "scheduler": "mix",
+            "max_lr": 1e-3,
+            "min_lr": 1e-4,
+            "final_lr": 5e-5
+        }
+    },
+
+    "path": {
+        "ckpt_path": ".ckpt/examples/time_dep/ce_crp.pt",
+        "loss_path": ".loss/examples/time_dep/ce_crp.png",
+        "result_path": ".results/examples/time_dep/ce_crp.png",
+        "database_path": ".database/examples/time_dep/ce_crp.csv"
+    }
+}

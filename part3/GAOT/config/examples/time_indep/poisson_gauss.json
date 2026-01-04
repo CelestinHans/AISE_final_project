@@ -1,0 +1,63 @@
+{
+    "setup": {
+        "seed": 42,
+        "device": "cuda:0",
+        "dtype": "torch.float32",
+        "trainer_name": "static",
+        "train": true,
+        "test": false,
+        "ckpt": false
+    },
+
+    "model": {
+        "name": "goat",
+        "latent_tokens_size": [64, 64],
+        "args": {
+            "magno": {
+                "coord_dim": 2,
+                "radius": 0.033,
+                "hidden_size": 64,
+                "mlp_layers": 3,
+                "lifting_channels": 64
+            },
+            "transformer": {
+                "patch_size": 2,
+                "hidden_size": 256
+            }
+        }
+    },
+
+    "dataset": {
+        "name": "Poisson-Gauss",
+        "metaname": "elliptic_pdes/Poisson-Gauss",
+        "base_path": "datasets/time_indep/",
+        "train_size": 2048,
+        "val_size": 128,
+        "test_size": 256,
+        "batch_size": 64,
+        "num_workers": 4,
+        "shuffle": true
+    },
+
+    "optimizer": {
+        "name": "adamw",
+        "args": {
+            "lr": 8e-4,
+            "weight_decay": 1e-05,
+            "epoch": 100,
+            "loss_scale": 1.0,
+            "eval_every_eps": 2,
+            "scheduler": "mix",
+            "max_lr": 1e-3,
+            "min_lr": 1e-4,
+            "final_lr": 5e-5
+        }
+    },
+
+    "path": {
+        "ckpt_path": ".ckpt/examples/time_indep/poisson_gauss.pt",
+        "loss_path": ".loss/examples/time_indep/poisson_gauss.png",
+        "result_path": ".results/examples/time_indep/poisson_gauss.png",
+        "database_path": ".database/examples/time_indep/poisson_gauss.csv"
+    }
+}

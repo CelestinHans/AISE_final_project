@@ -1,0 +1,2 @@
+AvgRelativeL2_unknown_test_t1: 0.03727065
+AvgMSE_unknown_test_t1: 3.19899074e-02

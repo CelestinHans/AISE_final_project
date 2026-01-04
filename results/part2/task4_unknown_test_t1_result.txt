@@ -1,0 +1,3 @@
+Task4_avg_relL2_unknown_test128_t1: 0.06903822
+Task1_avg_relL2_test128_t1: 2.00000000
+Diff_unknown_minus_task1: -1.93096178
