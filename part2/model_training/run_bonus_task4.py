@@ -1,26 +1,3 @@
-# part2/run_task4_train_from_scratch_unknown_all2all.py
-#
-# Task 4 (from scratch on unknown distribution):
-# - Train a NEW time-dependent all2all FNO model from scratch using ONLY:
-#     data_finetune_train_unknown_128.npy (32 trajectories)
-#   in all2all fashion: (u(t_i), x, dt=t_j-t_i) -> u(t_j), for all i<j
-# - Validate on:
-#     data_finetune_val_unknown_128.npy (8 trajectories)
-# - Select best checkpoint by lowest val relative L2
-# - Test on:
-#     data_test_unknown_128.npy at t = 1.0 only (input u(t0), dt=1.0 -> u(t=1))
-# - Save the train/val relative L2 curve plot
-# - Print and save the average relative L2 error on the unknown test set
-#
-# Outputs:
-# - results/part2/task4_from_scratch_all2all_unknown/best_model.pt
-# - results/part2/task4_from_scratch_all2all_unknown/log.txt
-# - results/part2/relL2_curve_task4_from_scratch.png
-# - results/part2/task4_from_scratch_all2all_unknown/test_result_unknown_t1.txt
-#
-# Notes:
-# - This script DOES NOT load Task 3 weights: it's trained from scratch.
-# - Metric is the statement's relative L2.
 
 from dataclasses import dataclass
 from pathlib import Path
@@ -33,9 +10,6 @@ from torch.utils.data import Dataset, DataLoader
 import matplotlib.pyplot as plt
 
 
-# -------------------------
-# Utils
-# -------------------------
 def set_seed(seed: int = 0) -> None:
     np.random.seed(seed)
     torch.manual_seed(seed)
@@ -73,9 +47,6 @@ def save_curve(train_vals, val_vals, out_path: Path, title: str, ylabel: str, ys
     plt.close()
 
 
-# -------------------------
-# Dataset (all2all)
-# -------------------------
 class All2AllTrajectoryDataset(Dataset):
     """
     .npy shape: (N, 5, S)
@@ -116,9 +87,7 @@ class All2AllTrajectoryDataset(Dataset):
         return inp, tgt
 
 
-# -------------------------
-# Time-conditional BN (FiLM)
-# -------------------------
+
 class FILM(nn.Module):
     def __init__(self, channels, use_bn: bool = True):
         super(FILM, self).__init__()
@@ -147,9 +116,7 @@ class FILM(nn.Module):
         return x * (1.0 + scale) + bias
 
 
-# -------------------------
-# FNO model (same as Task 3)
-# -------------------------
+
 class SpectralConv1d(nn.Module):
     def __init__(self, in_channels: int, out_channels: int, modes1: int):
         super().__init__()
@@ -228,9 +195,7 @@ class TimeDependentFNO1d_All2All(nn.Module):
         return x
 
 
-# -------------------------
-# Training / Evaluation
-# -------------------------
+
 @dataclass
 class ScratchConfig:
     seed: int = 0
