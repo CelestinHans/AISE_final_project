@@ -1,15 +1,3 @@
-# part2/run_task3_eval_multistep_times.py
-#
-# Task 3 (all2all) - multi-step time evaluation on data_test_128.npy
-# Evaluate predictions at t = 0.25, 0.50, 0.75, 1.0 using:
-#   input  = [u(t0)(x), x, Δt=t]
-#   target = u(t)(x)
-# Report avg relative L2 for each t and save a barplot.
-#
-# Outputs:
-# - results/part2/task3_multistep_time_results.txt
-# - results/part2/task3_multistep_time_barplot_pct.png  (errors in %)
-
 from pathlib import Path
 import numpy as np
 import torch
@@ -17,9 +5,7 @@ import torch.nn as nn
 import matplotlib.pyplot as plt
 
 
-# -------------------------
-# Metric (statement)
-# -------------------------
+
 def relative_l2(pred: torch.Tensor, true: torch.Tensor, eps: float = 1e-12) -> torch.Tensor:
     """
     err_n = ||pred-true||_2 / ||true||_2  (per trajectory)
@@ -35,9 +21,6 @@ def relative_l2(pred: torch.Tensor, true: torch.Tensor, eps: float = 1e-12) -> t
     return num / den
 
 
-# -------------------------
-# Time-conditional BN (FiLM) as used in Task 3
-# -------------------------
 class FILM(nn.Module):
     def __init__(self, channels, use_bn: bool = True):
         super().__init__()
@@ -66,9 +49,7 @@ class FILM(nn.Module):
         return x * (1.0 + scale) + bias
 
 
-# -------------------------
-# FNO blocks (same as Task 3)
-# -------------------------
+
 class SpectralConv1d(nn.Module):
     def __init__(self, in_channels: int, out_channels: int, modes1: int):
         super().__init__()
@@ -205,7 +186,7 @@ def save_barplot_pct(times, errors, out_path: Path):
 def main():
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
-    # ----- paths
+
     data_dir = Path("data/part2/FNO_data")
     test_path = data_dir / "data_test_128.npy"
 
@@ -215,7 +196,7 @@ def main():
     out_plot = Path("results/part2/task3_multistep_time_barplot_pct.png")
     out_txt.parent.mkdir(parents=True, exist_ok=True)
 
-    # ----- load model
+    #load model
     ckpt = torch.load(ckpt_path, map_location=device)
     cfg = ckpt.get("cfg", {})
     modes = int(cfg.get("modes", 16))
@@ -226,11 +207,11 @@ def main():
     model.load_state_dict(ckpt["model"])
     model.eval()
 
-    # ----- load test data
+    #load test data
     arr = np.load(test_path)  # (N,5,128)
     assert arr.ndim == 3 and arr.shape[1] == 5, f"Bad shape {arr.shape} in {test_path.name}"
 
-    # ----- evaluate times
+    #evaluate times
     times = [0.25, 0.50, 0.75, 1.0]
     errors = []
 
@@ -240,13 +221,13 @@ def main():
         errors.append(err)
         print(f"t={t:.2f}: avg relative L2 = {err:.6f} ({100*err:.2f}%)")
 
-    # ----- save table
+
     with open(out_txt, "w") as f:
         f.write("t,AvgRelativeL2,AvgRelativeL2_percent\n")
         for t, e in zip(times, errors):
             f.write(f"{t:.2f},{e:.8f},{100*e:.4f}\n")
 
-    # ----- barplot
+
     save_barplot_pct(times, errors, out_plot)
 
     print(f"\nSaved results to: {out_txt}")
